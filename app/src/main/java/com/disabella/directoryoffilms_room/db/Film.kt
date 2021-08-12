@@ -9,7 +9,7 @@ data class Film(
     @ColumnInfo(name = "name")
     val name: String?,
     @ColumnInfo(name = "release_year")
-    val releaseYear: Int?,
+    val releaseYear: String,
     @ColumnInfo(name = "producer")
     val producer: String?,
     @ColumnInfo(name = "description")
