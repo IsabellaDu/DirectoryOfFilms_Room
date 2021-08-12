@@ -1,0 +1,2 @@
+rootProject.name = "DirectoryOfFilms_Room"
+include ':app'
