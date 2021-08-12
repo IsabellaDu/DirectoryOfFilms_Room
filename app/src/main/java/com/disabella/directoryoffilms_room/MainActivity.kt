@@ -45,9 +45,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonLoad.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
+            lifecycleScope.launch(Dispatchers.Main) {
                 val films: List<Film> = filmDao.selectAll()
                 Log.i("my_tag", "$films")
+                textView.text = films[0].description
             }
         }
     }
