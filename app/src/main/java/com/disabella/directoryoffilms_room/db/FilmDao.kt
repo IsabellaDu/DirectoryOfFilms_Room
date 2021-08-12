@@ -1,6 +1,7 @@
 package com.disabella.directoryoffilms_room.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 
@@ -12,4 +13,7 @@ interface FilmDao {
 
     @Query("SELECT * FROM Film")
     suspend fun selectAll(): List<Film>
+
+    @Query("DELETE FROM Film")
+    suspend fun removeAll()
 }

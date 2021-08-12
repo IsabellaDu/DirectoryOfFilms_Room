@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val buttonLoad = findViewById<Button>(R.id.load)
         val buttonSave = findViewById<Button>(R.id.save)
+        val buttonClear = findViewById<Button>(R.id.clear)
         val textView = findViewById<TextView>(R.id.textView)
 
         buttonSave.setOnClickListener {
@@ -48,7 +49,13 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch(Dispatchers.Main) {
                 val films: List<Film> = filmDao.selectAll()
                 Log.i("my_tag", "$films")
-                textView.text = films[0].description
+                textView.text = films.toString()
+            }
+        }
+
+        buttonClear.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                filmDao.removeAll()
             }
         }
     }
