@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.disabella.directoryoffilms_room.db.Film
 import kotlin.random.Random
 
-class RecyclerAdapter(private val films: List<Film>) :
+class RecyclerAdapter(private val films: MutableList<Film>) :
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,6 +36,10 @@ class RecyclerAdapter(private val films: List<Film>) :
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_view, parent, false)
         return ViewHolder(view)
+    }
+
+    fun addItems(items: List<Film>) {
+        films.addAll(items)
     }
 
     @SuppressLint("SetTextI18n")

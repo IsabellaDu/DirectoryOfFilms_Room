@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DirectoryOfFilms_Room</string>
+    <string name="edit_text_hint">enter the name of film</string>
 </resources>
