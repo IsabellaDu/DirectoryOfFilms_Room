@@ -15,6 +15,9 @@ import kotlin.random.Random
 class RecyclerAdapter(private val films: MutableList<Film>) :
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
+    private val items = ArrayList<Film>(films)
+    private val filteredItems = ArrayList<Film>(films)
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val icon: FrameLayout = view.findViewById(R.id.icon)
         val name: TextView = view.findViewById(R.id.name)
@@ -30,7 +33,7 @@ class RecyclerAdapter(private val films: MutableList<Film>) :
         }
     }
 
-    override fun getItemCount(): Int = films.size
+    override fun getItemCount(): Int = filteredItems.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -39,17 +42,29 @@ class RecyclerAdapter(private val films: MutableList<Film>) :
     }
 
     fun addItems(items: List<Film>) {
-        films.addAll(items)
+        this.items.addAll(items)
+        filter(null)
+    }
+
+    fun filter(filter: String?) {
+        filteredItems.clear()
+        val result = if (filter.isNullOrBlank()) {
+            items
+        } else {
+            items.filter { it.name?.contains(filter, ignoreCase = true) ?: false }
+        }
+        filteredItems.addAll(result)
+        notifyDataSetChanged()
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        films[position].apply {
+        filteredItems[position].apply {
             viewHolder.icon.setBackgroundColor(randomColor())
-            viewHolder.name.text = films[position].name
-            viewHolder.releaseYear.text = films[position].releaseYear
-            viewHolder.producer.text = films[position].producer
-            viewHolder.description.text = films[position].description
+            viewHolder.name.text = filteredItems[position].name
+            viewHolder.releaseYear.text = filteredItems[position].releaseYear
+            viewHolder.producer.text = filteredItems[position].producer
+            viewHolder.description.text = filteredItems[position].description
         }
     }
 }

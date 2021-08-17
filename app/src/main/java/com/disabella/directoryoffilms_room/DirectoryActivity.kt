@@ -24,9 +24,6 @@ import kotlin.collections.ArrayList
 
 private val adapter = RecyclerAdapter(ArrayList(defaultFilms))
 
-lateinit var films: ArrayList<Film>
-var tempFilms: ArrayList<Film> = arrayListOf<Film>()
-
 class DirectoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,63 +40,15 @@ class DirectoryActivity : AppCompatActivity() {
         val searchView = findViewById<SearchView>(R.id.searchView)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(newText: String?): Boolean {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    films = filmDao.selectAll() as ArrayList<Film>
-                    if (newText != null) {
-                        searchFilm(newText)
-                    }
-                    withContext(Dispatchers.Main)
-                    {
-                        adapter.addItems(tempFilms)
-                    }
-                }
+            override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    films = filmDao.selectAll() as ArrayList<Film>
-                    if (newText != null) {
-                        searchFilm(newText)
-                    }
-                    withContext(Dispatchers.Main)
-                    {
-                        adapter.addItems(tempFilms)
-                    }
-                }
-                return false
-            }
-        })
-
-        searchView.setOnCloseListener(object : androidx.appcompat.widget.SearchView.OnCloseListener,
-            SearchView.OnCloseListener {
-            override fun onClose(): Boolean {
-                adapter.addItems(films)
-                return false
+                adapter.filter(newText)
+                return true
             }
         })
     }
 }
 
-private fun searchFilm(searchText: String): ArrayList<Film> {
-    if (searchText.toLowerCase(Locale.getDefault()).isNotEmpty()) {
-        tempFilms.clear()
-        films.forEach {
-            if (it.name?.toLowerCase(Locale.getDefault())!!.contains(searchText)) {
-                tempFilms.add(
-                    Film(
-                        it.name,
-                        it.releaseYear,
-                        it.producer,
-                        it.description
-                    )
-                )
-            }
-        }
-    } else {
-        tempFilms.clear()
-        tempFilms.addAll(films)
-    }
-    return tempFilms
-}
