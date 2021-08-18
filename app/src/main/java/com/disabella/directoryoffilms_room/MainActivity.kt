@@ -11,13 +11,12 @@ import androidx.room.Room
 import com.disabella.directoryoffilms_room.db.AppDataBase
 import com.disabella.directoryoffilms_room.db.Film
 import com.disabella.directoryoffilms_room.db.FilmDao
-import com.disabella.directoryoffilms_room.db.defaultFilms
+import com.disabella.directoryoffilms_room.db.FilmObj.filmDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-lateinit var filmDao: FilmDao
-
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,7 +27,6 @@ class MainActivity : AppCompatActivity() {
             "my_app_database"
         ).build()
         filmDao = db.filmDao()
-
     }
 
     override fun onResume() {
@@ -73,6 +71,5 @@ class MainActivity : AppCompatActivity() {
             producer.text.clear()
             description.text.clear()
         }
-
     }
 }

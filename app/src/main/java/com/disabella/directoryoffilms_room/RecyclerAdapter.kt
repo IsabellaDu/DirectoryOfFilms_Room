@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.disabella.directoryoffilms_room.db.Film
 import kotlin.random.Random
 
-class RecyclerAdapter(private val films: MutableList<Film>) :
+class RecyclerAdapter(films: MutableList<Film>) :
     RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     private val items = ArrayList<Film>(films)
@@ -24,7 +24,6 @@ class RecyclerAdapter(private val films: MutableList<Film>) :
         val releaseYear: TextView = view.findViewById(R.id.releaseYear)
         val producer: TextView = view.findViewById(R.id.producer)
         val description: TextView = view.findViewById(R.id.description)
-
 
         init {
             view.setOnClickListener {
@@ -61,10 +60,10 @@ class RecyclerAdapter(private val films: MutableList<Film>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         filteredItems[position].apply {
             viewHolder.icon.setBackgroundColor(randomColor())
-            viewHolder.name.text = filteredItems[position].name
-            viewHolder.releaseYear.text = filteredItems[position].releaseYear
-            viewHolder.producer.text = filteredItems[position].producer
-            viewHolder.description.text = filteredItems[position].description
+            viewHolder.name.text = name
+            viewHolder.releaseYear.text = releaseYear
+            viewHolder.producer.text = producer
+            viewHolder.description.text = description
         }
     }
 }
